@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>קוד האימוג׳ים הסודי שלנו 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #ffe5f0 0%, #fff7fb 40%, #f5f8ff 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+      max-width: 420px;
+      width: 100%;
+      padding: 22px 18px 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+
+    .soft {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 16px;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 14px;
+      transition: 0.15s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #ff7ea8, #ff9f8b);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(255, 135, 171, 0.45);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(255, 135, 171, 0.6);
+    }
+
+    .primary-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 6px 16px rgba(255, 135, 171, 0.4);
+    }
+
+    .secondary-btn {
+      background: #f3f5ff;
+      color: #4e568c;
+      font-size: 13px;
+      padding: 8px 12px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .question-counter {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    .question-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+      text-align: right;
+    }
+
+    .option-card {
+      background: #f7f3ff;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.15s ease;
+    }
+
+    .option-card:hover {
+      background: #f0e8ff;
+    }
+
+    .option-card.selected {
+      border-color: #f57da5;
+      background: #ffeefa;
+      box-shadow: 0 6px 18px rgba(245, 125, 165, 0.32);
+    }
+
+    .option-emoji {
+      font-size: 22px;
+    }
+
+    .option-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .option-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .option-desc {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .emoji-hint {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #555;
+      display: none;
+    }
+
+    .emoji-hint span {
+      font-size: 22px;
+      display: inline-block;
+      margin: 0 4px;
+    }
+
+    .result-emojis {
+      font-size: 32px;
+      margin: 10px 0 6px;
+      word-break: break-word;
+    }
+
+    .small-note {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 40px;
+      opacity: 0.12;
+      animation: float 9s linear infinite;
+      pointer-events: none;
+    }
+
+    .floating-heart.h1 { top: 8%; right: 6%; }
+    .floating-heart.h2 { bottom: 10%; left: 8%; animation-delay: 2s; }
+    .floating-heart.h3 { top: 55%; left: -8%; animation-delay: 4s; }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-12px) translateX(4px) scale(1.05); }
+      100% { transform: translateY(0) translateX(0) scale(1); }
+    }
+
+    .media-section {
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .media-section video {
+      width: 100%;
+      max-height: 220px;
+      border-radius: 16px;
+      margin-top: 8px;
+      background: #000;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        padding: 18px 14px 14px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="floating-heart h1">💗</div>
+  <div class="floating-heart h2">✨</div>
+  <div class="floating-heart h3">💫</div>
+
+  <!-- שיר ברקע (לא נראה, רק מנגן) -->
+  <!-- החלף את song.mp3 בקובץ/קישור שלך -->
+  <audio id="bgSong" src="song.mp3" loop></audio>
+
+  <!-- שלב 1: פתיח -->
+  <div class="step active" id="stepIntro">
+    <h1>רק רציתי להזכיר לך משהו קטן…</h1>
+    <p>
+      שיש בך משהו אמיתי ומדהים בדיוק כמו שאת.<br>
+       ואני רק רוצה להכיר עוד ועוד מהעולם שלך ומגיע לך מישהו שרואה את זה. 🫶
+    </p>
+    <p class="soft">
+      ויש לי רעיון לפעם הבאה שנפגש…<br>
+      אבל במקום לספר לך בוואטסאפ,<br>
+      בואי נבנה לנו <strong>קוד סודי של אימוג׳ים</strong>.  
+    </p>
+    <button class="primary-btn" id="startBtn">
+      נתחיל בקוד האימוג׳ים 💗
+    </button>
+  </div>
+
+  <!-- שלב 2: שאלות -->
+  <div class="step" id="stepQuestions">
+    <h2>קוד האימוג׳ים שלנו</h2>
+    <p class="soft">
+      לכל תשובה שתבחרי יש אימוג׳ סודי,<br>
+      ובסוף תשלחי לי את כולם בוואטסאפ לפי הסדר 😉
+    </p>
+
+    <div class="question-counter" id="questionCounter">
+      שאלה 1 מתוך 4
+    </div>
+
+    <div class="question-title" id="questionTitle"></div>
+
+    <div class="options" id="optionsContainer"></div>
+
+    <div class="emoji-hint" id="emojiHint">
+      האימוג׳ הסודי לשאלה הזו הוא:
+      <span id="emojiHintIcon">💗</span>
+      <div style="font-size:11px; color:#999; margin-top:2px;">
+        (תזכרי אותו, בסוף נראה את כל הקוד ביחד)
+      </div>
+    </div>
+
+    <button class="primary-btn" id="nextQuestionBtn" disabled>
+      המשך לשאלה הבאה ➜
+    </button>
+  </div>
+
+  <!-- שלב 3: תוצאה סופית + סרטון ושיר -->
+  <div class="step" id="stepResult">
+    <h1>זה קוד האימוג׳ים הסודי שלנו 😏</h1>
+    <p class="soft">
+      עכשיו כל מה שנשאר זה לשלוח לי בוואטסאפ<br>
+      את כל האימוג׳ים האלה <strong>בדיוק בסדר שמופיע כאן</strong>:
+    </p>
+
+    <div class="result-emojis" id="resultEmojis">💗💜🎬</div>
+
+    <button class="secondary-btn" id="copyCodeBtn">
+      העתקת כל הקוד ללוח 📋
+    </button>
+
+    <p class="small-note">
+      אחרי שהעתקת – פשוט תדביקי אותם בצ׳אט שלנו בוואטסאפ<br>
+      בלי שום טקסט נוסף, ואני כבר אבין הכל 😉
+    </p>
+
+    <div class="media-section">
+      <p class="soft" style="margin-bottom:8px;">
+        ועכשיו כדי לדאוג שאני לא רק חנון אלא גם מגניב, הנה קטע שיגרום לך לצחוק והרווחתי עוד חיוך 🎥🎵
+      </p>
+
+      <!-- כפתור לניגון השיר שוב בסוף -->
+      <button class="secondary-btn" id="playSongAgainBtn">
+        נגן שוב את השיר ברקע 🎵
+      </button>
+
+      <!-- סרטון קצר שאתה מעלה -->
+      <!-- החלף את video.mp4 בקובץ/קישור שלך -->
+      <video id="finalVideo" controls>
+        <source src="video.mp4" type="video/mp4">
+        הדפדפן שלך לא תומך בניגון וידאו.
+      </video>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- DATA: השאלות והאימוג׳ים ----
+  const questions = [
+    {
+      title: "מה הכי מסכם בעינייך את הפעם האחרונה שנפגשנו?",
+      options: [
+        {
+          title: "הרגשתי חיבור אמיתי",
+          desc: "משהו שהיה גם כיף וגם נוח כזה",
+          emoji: "💞"
+        },
+        {
+          title: "עבר לי מהר מדי",
+          desc: "בקטע של 'איך כבר נגמר?!'",
+          emoji: "⌛"
+        },
+        {
+          title: "היה מצחיק בטירוף",
+          desc: "עדיין יש קטעים שעולים לי לראש",
+          emoji: "😂"
+        },
+        {
+          title: "היה שקט טוב כזה",
+          desc: "אפילו הרגעים השקטים היו נעימים",
+          emoji: "🌙"
+        }
+      ]
+    },
+    {
+      title: "איזה וייב בא לך שיהיה למפגש הקרוב שלנו?",
+      options: [
+        {
+          title: "קליל ומצחיק",
+          desc: "שנשב ונהיה שטויות חמודות",
+          emoji: "😜"
+        },
+        {
+          title: "עמוק כזה",
+          desc: "דיבורים אמיתיים, לשבת ולהיפתח",
+          emoji: "🌊"
+        },
+        {
+          title: "הרפתקני",
+          desc: "לעשות משהו שונה, קצת אקשן",
+          emoji: "🧭"
+        },
+        {
+          title: "ביתי ושקט",
+          desc: "אוכל טוב, מוזיקה ורוגע",
+          emoji: "🏡"
+        }
+      ]
+    },
+    {
+      title: "איזה קוקטייל בא לך שאכין לך במפגש הקרוב?",
+      options: [
+        {
+          title: "🍊 אפרול שפריץ",
+          desc: "האופציה הנכונה מדעית. לא שאני רומז או משהו… 🙄",
+          emoji: "🧡"
+        },
+        {
+          title: "🍃 מוחיטו קלאסי",
+          desc: "קצת רעננות, נענע, לימון ו'בא לי עוד אחד'",
+          emoji: "🍃"
+        },
+        {
+          title: "🥂 קוקטייל הפתעה",
+          desc: "אני ממציא משהו במקום. מסוכן, אבל מצחיק",
+          emoji: "🎉"
+        }
+      ]
+    },
+    {
+      title: "ומה הכי בא לך שנעשה במפגש הקרוב?",
+      options: [
+        {
+          title: "🧩 חדר בריחה",
+          desc: "ללכת לאיבוד ביחד בין חידות ושעונים מתקתקים",
+          emoji: "💜"
+        },
+        {
+          title: "🍝 מסעדה איטלקית",
+          desc: "פסטה, יין, ופחמימות שעושות טוב על הלב",
+          emoji: "🍝"
+        },
+        {
+          title: "🥢 מסעדה אסייתית",
+          desc: "להסתבך עם צ׳ופסטיקס ולצחוק על זה",
+          emoji: "🥢"
+        },
+        {
+          title: "🍷 בר שקט",
+          desc: "משהו לשתות והרבה דיבורים",
+          emoji: "🍷"
+        },
+        {
+          title: "🌳 פיקניק בחוץ",
+          desc: "שמיכה, אוכל טוב ואוויר נעים",
+          emoji: "🌳"
+        }
+      ]
+    }
+  ];
+
+  // ---- STATE ----
+  let currentQuestionIndex = 0;
+  let answersEmojis = []; // כאן נשמור אימוג׳ לכל שאלה
+  let selectedEmojiForCurrent = null;
+
+  // ---- DOM ELEMENTS ----
+  const stepIntro = document.getElementById("stepIntro");
+  const stepQuestions = document.getElementById("stepQuestions");
+  const stepResult = document.getElementById("stepResult");
+
+  const startBtn = document.getElementById("startBtn");
+  const questionCounterEl = document.getElementById("questionCounter");
+  const questionTitleEl = document.getElementById("questionTitle");
+  const optionsContainerEl = document.getElementById("optionsContainer");
+  const emojiHintEl = document.getElementById("emojiHint");
+  const emojiHintIconEl = document.getElementById("emojiHintIcon");
+  const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+
+  const resultEmojisEl = document.getElementById("resultEmojis");
+  const copyCodeBtn = document.getElementById("copyCodeBtn");
+
+  const bgSong = document.getElementById("bgSong");
+  const playSongAgainBtn = document.getElementById("playSongAgainBtn");
+  const finalVideo = document.getElementById("finalVideo");
+
+  // עצירת השיר ברגע שהסרטון מנגן
+    finalVideo.addEventListener("play", () => {
+  if (bgSong && !bgSong.paused) {
+    bgSong.pause();
+  }
+});
+
+// אופציונלי: אם הסרטון נעצר או מסתיים — לא מפעיל אוטומטית מחדש את השיר
+finalVideo.addEventListener("pause", () => {});
+finalVideo.addEventListener("ended", () => {});
+
+
+  // ---- start ----
+  startBtn.addEventListener("click", () => {
+    // ננסה להפעיל את השיר ברקע (אחרי אינטראקציה מותר לרוב הדפדפנים)
+    if (bgSong) {
+      bgSong.volume = 0.6;
+      bgSong.play().catch(() => {});
+    }
+
+    stepIntro.classList.remove("active");
+    stepQuestions.classList.add("active");
+    loadQuestion(0);
+  });
+
+  // ---- load a question ----
+  function loadQuestion(index) {
+    currentQuestionIndex = index;
+    selectedEmojiForCurrent = null;
+    emojiHintEl.style.display = "none";
+    nextQuestionBtn.disabled = true;
+
+    const total = questions.length;
+    questionCounterEl.textContent = `שאלה ${index + 1} מתוך ${total}`;
+
+    const q = questions[index];
+    questionTitleEl.textContent = q.title;
+
+    optionsContainerEl.innerHTML = "";
+    q.options.forEach((opt) => {
+      const card = document.createElement("div");
+      card.className = "option-card";
+
+      const emojiSpan = document.createElement("div");
+      emojiSpan.className = "option-emoji";
+      const firstChar = opt.title.trim().charAt(0);
+      emojiSpan.textContent = firstChar.match(/[\uD800-\uDBFF]/) ? firstChar : "⭐";
+
+      const textDiv = document.createElement("div");
+      textDiv.className = "option-text";
+
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "option-title";
+      titleDiv.textContent = opt.title;
+
+      const descDiv = document.createElement("div");
+      descDiv.className = "option-desc";
+      descDiv.textContent = opt.desc;
+
+      textDiv.appendChild(titleDiv);
+      textDiv.appendChild(descDiv);
+
+      card.appendChild(emojiSpan);
+      card.appendChild(textDiv);
+
+      card.addEventListener("click", () => {
+        document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+
+        selectedEmojiForCurrent = opt.emoji;
+        answersEmojis[index] = opt.emoji;
+
+        emojiHintIconEl.textContent = opt.emoji;
+        emojiHintEl.style.display = "block";
+        nextQuestionBtn.disabled = false;
+      });
+
+      optionsContainerEl.appendChild(card);
+    });
+
+    if (index === questions.length - 1) {
+      nextQuestionBtn.textContent = "לסיום ולגילוי הקוד 💗";
+    } else {
+      nextQuestionBtn.textContent = "המשך לשאלה הבאה ➜";
+    }
+  }
+
+  // ---- next question / finish ----
+  nextQuestionBtn.addEventListener("click", () => {
+    if (!selectedEmojiForCurrent) return;
+
+    if (currentQuestionIndex < questions.length - 1) {
+      loadQuestion(currentQuestionIndex + 1);
+    } else {
+      stepQuestions.classList.remove("active");
+      stepResult.classList.add("active");
+      showResult();
+
+      // אופציונלי: לעצור רגע את השיר כשהיא מגיעה לסוף
+      // ואז לתת לה להפעיל שוב עם הכפתור
+      // bgSong.pause();
+    }
+  });
+
+  // ---- result screen ----
+  function showResult() {
+    const code = answersEmojis.join("");
+    resultEmojisEl.textContent = code;
+  }
+
+  // ---- copy to clipboard ----
+  copyCodeBtn.addEventListener("click", async () => {
+    const code = answersEmojis.join("");
+    if (!code) return;
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(code);
+        copyCodeBtn.textContent = "הקוד הועתק ✔";
+        setTimeout(() => {
+          copyCodeBtn.textContent = "העתקת כל הקוד ללוח 📋";
+        }, 1800);
+      } else {
+        window.prompt("תסמני ותעתיקי את הקוד:", code);
+      }
+    } catch (e) {
+      window.alert("אם זה לא עבד, פשוט תסמני ותעתיקי את האימוג׳ים בעצמך: " + code);
+    }
+  });
+
+  // ---- play song again button ----
+  playSongAgainBtn.addEventListener("click", () => {
+    if (!bgSong) return;
+    try {
+      bgSong.currentTime = 0;
+      bgSong.play().catch(() => {});
+    } catch (e) {}
+  });
+</script>
+
+</body>
+</html>
